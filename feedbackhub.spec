@@ -1,7 +1,7 @@
 Name:           feedbackhub
 Version:        1.0.0
 Release:        1%{?dist}
-Summary:        A local app that mimics the Windows Feedback Hub
+Summary:        A local app for the Linux Feedback Hub
 
 License:        MIT
 URL:            https://github.com/com-in/FeedbackHub-For-Linux
@@ -11,7 +11,7 @@ BuildArch:      noarch
 Requires:       python3, python3-gobject, gtk3
 
 %description
-A GTK3 application that mimics the Windows Feedback Hub. All feedback data
+A GTK3 application for the Linux Feedback Hub. All feedback data
 is stored locally; nothing is uploaded. Built with Python 3 and GTK 3.
 
 %prep

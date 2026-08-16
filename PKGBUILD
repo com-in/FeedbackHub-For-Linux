@@ -5,7 +5,7 @@
 pkgname=feedbackhub
 pkgver=1.0.0
 pkgrel=1
-pkgdesc="模拟 Windows 反馈中心的本地应用（所有数据仅保存在本机，不联网）"
+pkgdesc="Linux 反馈中心的本地应用（所有数据仅保存在本机，不联网）"
 arch=('any')
 url="https://example.local/feedbackhub"
 license=('MIT')

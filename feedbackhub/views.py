@@ -564,7 +564,7 @@ class NewFeedbackPage(Gtk.ScrolledWindow):
         desc = buf.get_text(buf.get_start_iter(), buf.get_end_iter(), False).strip()
         cat = self.category.get_active_text() or "其他"
         sub = self.subcategory.get_active_text() or ""
-        prod = self.product.get_active_text() or "Windows"
+        prod = self.product.get_active_text() or "Linux"
         blocked = self.blocked.get_active()
         item = self.ctx.store.add_feedback(
             title=title, description=desc, category=cat, subcategory=sub,

@@ -28,7 +28,7 @@ jobs:
           python3 - <<'PY'
           import feedbackhub.data as d
           store = d.DataStore()
-          it = store.add_feedback("测试", "测试内容", "UI", "普通", "Windows 11", "问题")
+          it = store.add_feedback("测试", "测试内容", "UI", "普通", "Linux", "问题")
           assert store.vote(it.id) is None
           store.add_comment(it.id, "测试评论")
           assert len(store.search("测试")) >= 1
@@ -127,7 +127,7 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Feedback Hub for Linux ${{ github.ref_name }}
           body: |
-            模拟 Windows 反馈中心的本地 GTK 应用。
+            Linux 反馈中心的本地 GTK 应用。
             - 所有数据仅保存在本机，不联网、不上传
             - 支持 Debian/Ubuntu (.deb)、Fedora/RHEL (.rpm)、Arch Linux (PKGBUILD/pkg.tar.zst)、通用源码包
           draft: false

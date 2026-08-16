@@ -2,8 +2,8 @@
 Type=Application
 Name=反馈中心
 Name[en]=Feedback Hub
-Comment=模拟 Windows 反馈中心的本地应用
-Comment[en]=A local app that mimics the Windows Feedback Hub
+Comment=Linux 反馈中心的本地应用
+Comment[en]=A local app for the Linux Feedback Hub
 Exec=feedbackhub
 Icon=feedbackhub
 Terminal=false

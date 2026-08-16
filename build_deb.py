@@ -22,8 +22,8 @@ PKG = "feedbackhub"
 VERSION = feedbackhub.__version__
 ARCH = "all"
 MAINTAINER = "Feedback Hub Maintainers <maintainer@example.local>"
-DESC = ("A local app that mimics the Windows Feedback Hub. "
-        "All feedback is stored locally and never uploaded.")
+DESC = ("A local app for the Linux Feedback Hub. "
+        "All feedback data is stored locally; nothing is uploaded.")
 
 DEPS = ", ".join([
     "python3",
@@ -126,7 +126,7 @@ def _make_tar_bytes_with_dirs(entries):
 def _control_bytes(installed_size_kb):
     # Description 第二行起需以空格开头
     long_desc = (
-        " A local desktop app that mimics the Windows Feedback Hub.\n"
+        " A local desktop app for the Linux Feedback Hub.\n"
         " All feedback data is stored locally under "
         "~/.local/share/feedbackhub/; nothing is uploaded.\n"
         " Built with Python 3 and GTK 3."

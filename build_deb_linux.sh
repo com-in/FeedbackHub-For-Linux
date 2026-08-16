@@ -56,7 +56,7 @@ Maintainer: Feedback Hub Maintainers <maintainer@example.local>
 Depends: python3, python3-gi, gir1.2-gtk-3.0
 Section: utils
 Priority: optional
-Description: A local app that mimics the Windows Feedback Hub.
+Description: A local app for the Linux Feedback Hub.
  All feedback data is stored locally; nothing is uploaded.
  Built with Python 3 and GTK 3.
 EOF

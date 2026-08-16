@@ -100,7 +100,7 @@ CATEGORIES = [
     ("其他", ["其他"]),
 ]
 
-PRODUCTS = ["Windows", "反馈中心", "Microsoft Edge", "照片", "终端", "其他产品"]
+PRODUCTS = ["Linux", "反馈中心", "Microsoft Edge", "照片", "终端", "其他产品"]
 
 STATUS_COLORS = {
     "已收到": "#0078d4",
@@ -114,7 +114,7 @@ STATUS_COLORS = {
 
 class FeedbackItem:
     def __init__(self, title="", description="", category="", subcategory="",
-                 product="Windows", ftype="problem", status="已收到",
+                 product="Linux", ftype="problem", status="已收到",
                  votes=0, comments=None, mine=False, blocked=False,
                  created=None, fid=None):
         self.id = fid or uuid.uuid4().hex[:12]
@@ -155,7 +155,7 @@ class FeedbackItem:
             description=d.get("description", ""),
             category=d.get("category", ""),
             subcategory=d.get("subcategory", ""),
-            product=d.get("product", "Windows"),
+            product=d.get("product", "Linux"),
             ftype=d.get("ftype", "problem"),
             status=d.get("status", "已收到"),
             votes=d.get("votes", 0),
@@ -176,7 +176,7 @@ def _seed():
             title="希望文件资源管理器支持多标签页",
             description="经常同时打开多个文件夹，标签页能大幅提升效率。",
             category="桌面与应用", subcategory="文件资源管理器",
-            product="Windows", ftype="suggestion", status="已实现",
+            product="Linux", ftype="suggestion", status="已实现",
             votes=12843, created=now - 400 * day,
             comments=[
                 {"author": "用户A", "text": "非常需要这个功能！", "ts": now - 300 * day},
@@ -187,7 +187,7 @@ def _seed():
             title="设置面板响应缓慢",
             description="打开设置后切换页面有明显卡顿，希望能优化性能。",
             category="系统", subcategory="设置",
-            product="Windows", ftype="problem", status="正在调查",
+            product="Linux", ftype="problem", status="正在调查",
             votes=3204, created=now - 60 * day,
             comments=[{"author": "用户C", "text": "我也遇到了，特别是在高DPI下。", "ts": now - 50 * day}],
         ),
@@ -195,7 +195,7 @@ def _seed():
             title="任务栏支持居中对齐",
             description="希望任务栏图标可以居中显示，类似平板模式下的样式。",
             category="桌面与应用", subcategory="任务栏",
-            product="Windows", ftype="suggestion", status="已实现",
+            product="Linux", ftype="suggestion", status="已实现",
             votes=21560, created=now - 500 * day,
             comments=[{"author": "用户D", "text": "居中之后好看多了。", "ts": now - 400 * day}],
         ),
@@ -203,21 +203,21 @@ def _seed():
             title="蓝牙耳机偶发断连",
             description="使用蓝牙耳机时偶尔会出现声音断续或断开的情况。",
             category="输入与设备", subcategory="蓝牙",
-            product="Windows", ftype="problem", status="需要更多信息",
+            product="Linux", ftype="problem", status="需要更多信息",
             votes=877, created=now - 20 * day,
         ),
         FeedbackItem(
             title="希望内置截图工具支持录屏",
             description="截图工具如果能增加录屏功能会非常方便。",
             category="桌面与应用", subcategory="桌面",
-            product="Windows", ftype="suggestion", status="已实现",
+            product="Linux", ftype="suggestion", status="已实现",
             votes=6540, created=now - 300 * day,
         ),
         FeedbackItem(
             title="夜间模式自动切换不生效",
             description="设置的自动切换时间段没有按预期生效。",
             category="显示与声音", subcategory="显示",
-            product="Windows", ftype="problem", status="已修复",
+            product="Linux", ftype="problem", status="已修复",
             votes=412, created=now - 90 * day,
             comments=[{"author": "用户E", "text": "更新后已经正常了，谢谢！", "ts": now - 80 * day}],
         ),
@@ -225,14 +225,14 @@ def _seed():
             title="希望改进行动中心通知分组",
             description="通知太多时希望能按应用分组，方便查看。",
             category="桌面与应用", subcategory="桌面",
-            product="Windows", ftype="suggestion", status="正在调查",
+            product="Linux", ftype="suggestion", status="正在调查",
             votes=2210, created=now - 30 * day,
         ),
         FeedbackItem(
             title="开机启动速度偏慢",
             description="冷启动到桌面需要较长时间，希望优化启动流程。",
             category="性能与可靠性", subcategory="性能",
-            product="Windows", ftype="problem", status="已收到",
+            product="Linux", ftype="problem", status="已收到",
             votes=1560, created=now - 10 * day,
         ),
     ]

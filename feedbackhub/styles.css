@@ -54,7 +54,7 @@
     background-color: #ffffff;
     border-radius: 10px;
     padding: 16px;
-    /* GTK 3 CSS 不支持 box-shadow，用 border 模拟 */
+    /* GTK 3 CSS 不支持 box-shadow，用 border 替代 */
     border: 1px solid #e5e5e5;
 }
 .card-hover:hover {
