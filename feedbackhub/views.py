@@ -248,8 +248,8 @@ class FeedbackPage(Gtk.ScrolledWindow):
             self.inner.remove(child)
 
         query = self.ctx.search_entry.get_text().strip()
-        items = self.ctx.store.search(query)
-
+        # 固定展示"没有反馈"：仅强制数据源为空，下方搜索/排序/产品过滤逻辑全部保留
+        items = []
         prod = self.product.get_active_text()
         if prod and prod != "所有产品":
             items = [i for i in items if i.product == prod]
@@ -264,8 +264,8 @@ class FeedbackPage(Gtk.ScrolledWindow):
 
         if not items:
             self.inner.pack_start(
-                empty_state("🔍", "未找到相关反馈",
-                            "尝试更换关键词，或提交一条新反馈。"),
+                empty_state("🔍", "还没有反馈",
+                            "报告问题或建议新功能后，会在这里看到。"),
                 False, False, 0)
             return
 
