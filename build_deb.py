@@ -81,7 +81,7 @@ def _install(root_dir):
     os.makedirs(doc_dir, exist_ok=True)
     with open(os.path.join(doc_dir, "copyright"), "w", encoding="utf-8") as f:
         f.write("Copyright (c) 2026 Feedback Hub for Linux\n"
-                "License: MIT\n")
+                "License: GPL-3.0-or-later\n")
     if os.path.exists(os.path.join(ROOT, "README.md")):
         shutil.copy2(os.path.join(ROOT, "README.md"),
                      os.path.join(doc_dir, "README"))

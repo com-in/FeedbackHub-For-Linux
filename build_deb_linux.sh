@@ -44,7 +44,7 @@ EOF
   cp "$ROOT/README.md" "$STAGE/usr/share/doc/$PKG/README"
   cat > "$STAGE/usr/share/doc/$PKG/copyright" <<'EOF'
 Copyright (c) 2026 Feedback Hub for Linux
-License: MIT
+License: GPL-3.0-or-later
 EOF
 
   # control 文件（由 dpkg-deb 自动生成 md5sums）

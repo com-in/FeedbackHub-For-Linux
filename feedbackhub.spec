@@ -3,7 +3,7 @@ Version:        1.0.0
 Release:        1%{?dist}
 Summary:        A local app for the Linux Feedback Hub
 
-License:        MIT
+License:        GPL-3.0-or-later
 URL:            https://github.com/com-in/FeedbackHub-For-Linux
 Source0:        feedbackhub-%{version}.tar.gz
 

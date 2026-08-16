@@ -94,4 +94,4 @@ feedbackhub.desktop   # 桌面入口
 
 ## 许可
 
-MIT License
+GPL-3.0 License
