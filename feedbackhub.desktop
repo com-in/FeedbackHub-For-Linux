@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=反馈中心
+Name[en]=Feedback Hub
+Comment=模拟 Windows 反馈中心的本地应用
+Comment[en]=A local app that mimics the Windows Feedback Hub
+Exec=feedbackhub
+Icon=feedbackhub
+Terminal=false
+Categories=Utility;System;
+Keywords=feedback;feedbackhub;反馈;
+StartupWMClass=反馈中心

@@ -1,0 +1,135 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  # 在任何干净 Linux 上先做一次语法与导入校验，确保打包前代码无误。
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装依赖
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-gi gir1.2-gtk-3.0
+      - name: 语法编译检查
+        run: |
+          python3 -m py_compile feedbackhub/*.py
+          echo "语法检查通过"
+      - name: 数据层冒烟测试
+        run: |
+          python3 - <<'PY'
+          import feedbackhub.data as d
+          store = d.DataStore()
+          it = store.add_feedback("测试", "测试内容", "UI", "普通", "Windows 11", "问题")
+          assert store.vote(it.id) is None
+          store.add_comment(it.id, "测试评论")
+          assert len(store.search("测试")) >= 1
+          assert len(store.my_items()) >= 1
+          assert store.get(it.id) is not None
+          print("数据层测试通过")
+          PY
+
+  build-deb:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装打包依赖
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev python3 python3-gi gir1.2-gtk-3.0
+      - name: 用 dpkg-deb 构建 .deb
+        run: bash build_deb_linux.sh
+      - name: 校验 .deb
+        run: dpkg-deb --info dist/*.deb && dpkg-deb --contents dist/*.deb >/dev/null
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deb
+          path: dist/*.deb
+
+  build-rpm:
+    needs: verify
+    runs-on: fedora-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装打包依赖
+        run: |
+          sudo dnf install -y rpm-build python3 python3-gobject gtk3
+      - name: 用 rpmbuild 构建 .rpm
+        run: bash build_rpm.sh
+      - name: 校验 .rpm
+        run: rpm -qip dist/*.rpm
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rpm
+          path: dist/*.rpm
+
+  build-arch:
+    needs: verify
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装打包依赖
+        run: |
+          pacman -Syu --noconfirm --needed base-devel python python-gobject gtk3
+      - name: 构建 Arch 源码包 (PKGBUILD)
+        run: |
+          # makepkg 不允许以 root 运行，创建构建用户
+          useradd -m builder
+          chown -R builder:builder .
+          su builder -c 'cd "$PWD" && makepkg -f --noconfirm --skipchecksums'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: arch
+          path: |
+            dist/feedbackhub-*.tar.gz
+            feedbackhub-*.pkg.tar.*
+            PKGBUILD
+
+  build-source:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 构建通用源码包
+        run: python3 build_tar.py dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source
+          path: dist/feedbackhub-*.tar.gz
+
+  release:
+    needs: [build-deb, build-rpm, build-arch, build-source]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: 下载所有产物
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: 收集安装包
+        run: |
+          mkdir -p release-assets
+          find artifacts -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.pkg.tar.*' -o -name 'feedbackhub-*.tar.gz' \) -exec cp {} release-assets/ \;
+          ls -lh release-assets/
+      - name: 创建/更新 GitHub Release 并推送安装包
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Feedback Hub for Linux ${{ github.ref_name }}
+          body: |
+            模拟 Windows 反馈中心的本地 GTK 应用。
+            - 所有数据仅保存在本机，不联网、不上传
+            - 支持 Debian/Ubuntu (.deb)、Fedora/RHEL (.rpm)、Arch Linux (PKGBUILD/pkg.tar.zst)、通用源码包
+          draft: false
+          prerelease: false
+          files: release-assets/*

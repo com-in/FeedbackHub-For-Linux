@@ -1,0 +1,9 @@
+# 强制 LF：shebang 脚本与文本文件在 Windows 检出后也必须保持 LF
+* text=lf eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.css text eol=lf
+*.svg text eol=lf
+*.desktop text eol=lf
+*.spec text eol=lf
+PKGBUILD text eol=lf
