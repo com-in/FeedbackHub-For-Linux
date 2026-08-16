@@ -61,8 +61,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 安装打包依赖
+        # 仅装构建必需项。gtk3/python3-gobject 只是运行时依赖，
+        # 打包 noarch 纯 Python 包无需 GTK，避免拉取大量图形依赖导致卡住。
         run: |
-          sudo dnf install -y rpm-build python3 python3-gobject gtk3
+          sudo dnf install -y --refresh rpm-build python3
       - name: 用 rpmbuild 构建 .rpm
         run: bash build_rpm.sh
       - name: 校验 .rpm
@@ -78,20 +80,26 @@ jobs:
     container: archlinux:latest
     steps:
       - uses: actions/checkout@v4
-      - name: 安装打包依赖
+      - name: 初始化 pacman 与安装打包依赖
         run: |
-          pacman -Syu --noconfirm --needed base-devel python python-gobject gtk3
+          pacman-key --init
+          pacman-key --populate archlinux
+          pacman -Syu --noconfirm --needed \
+            base-devel git python python-gobject gtk3
       - name: 构建 Arch 源码包 (PKGBUILD)
         run: |
           # makepkg 不允许以 root 运行，创建构建用户
           useradd -m builder
-          chown -R builder:builder .
-          su builder -c 'cd "$PWD" && makepkg -f --noconfirm --skipchecksums'
+          chown -R builder:builder "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          su builder -c \
+            'cd "'$GITHUB_WORKSPACE'" && makepkg -f --noconfirm --skipinteg'
+      - name: 列出产物
+        run: ls -l "$GITHUB_WORKSPACE"/feedbackhub-*.pkg.tar.*
       - uses: actions/upload-artifact@v4
         with:
           name: arch
           path: |
-            dist/feedbackhub-*.tar.gz
             feedbackhub-*.pkg.tar.*
             PKGBUILD
 
